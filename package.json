@@ -1,4 +1,24 @@
 {
   "name": "trpc-ai-assessment",
-  "packageManager": "yarn@4.5.2"
+  "packageManager": "yarn@4.9.2+sha512.1fc009bc09d13cfd0e19efa44cbfc2b9cf6ca61482725eb35bbc5e257e093ebf4130db6dfe15d604ff4b79efd8e1e8e99b25fa7d0a6197c9f9826358d4d65c3c",
+  "scripts": {
+    "dev:server": "tsx watch src/server",
+    "dev:client": "tsx watch src/client"
+  },
+  "dependencies": {
+    "@google-cloud/vertexai": "^1.10.0",
+    "@opendocsg/pdf2md": "^0.2.1",
+    "@trpc/client": "^11.4.1",
+    "@trpc/server": "^11.4.1",
+    "dotenv": "^16.5.0",
+    "zod": "^3.25.64",
+    "zod-form-data": "^3.0.0"
+  },
+  "devDependencies": {
+    "@tsconfig/node-lts": "^22.0.1",
+    "@tsconfig/recommended": "^1.0.8",
+    "@types/node": "^24.0.3",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
 }

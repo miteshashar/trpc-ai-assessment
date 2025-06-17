@@ -3,13 +3,16 @@
   "packageManager": "yarn@4.9.2+sha512.1fc009bc09d13cfd0e19efa44cbfc2b9cf6ca61482725eb35bbc5e257e093ebf4130db6dfe15d604ff4b79efd8e1e8e99b25fa7d0a6197c9f9826358d4d65c3c",
   "scripts": {
     "dev:server": "tsx watch src/server",
-    "dev:client": "tsx src/client"
+    "cli": "tsx src/cli/regular",
+    "cli:interactive": "tsx src/cli/interactive"
   },
   "dependencies": {
     "@google-cloud/vertexai": "^1.10.0",
     "@opendocsg/pdf2md": "^0.2.1",
     "@trpc/client": "^11.4.1",
     "@trpc/server": "^11.4.1",
+    "@types/blessed": "^0.1.25",
+    "blessed": "^0.1.81",
     "dotenv": "^16.5.0",
     "zod": "^3.25.64",
     "zod-form-data": "^3.0.0"

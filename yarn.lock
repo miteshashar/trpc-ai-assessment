@@ -313,7 +313,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^24.0.3":
+"@types/blessed@npm:^0.1.25":
+  version: 0.1.25
+  resolution: "@types/blessed@npm:0.1.25"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/ec298878c1c9d4202fee26248677c39236d7c0eac8ed8f6e93a9e5838bc531074fe44941e2b85fc77b0cc20924493930d295042ee0315e020dffeba99668737a
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:*, @types/node@npm:^24.0.3":
   version: 24.0.3
   resolution: "@types/node@npm:24.0.3"
   dependencies:
@@ -417,6 +426,15 @@ __metadata:
   version: 9.3.0
   resolution: "bignumber.js@npm:9.3.0"
   checksum: 10c0/f54a79cd6fc98552ac0510c1cd9381650870ae443bdb20ba9b98e3548188d941506ac3c22a9f9c69b2cc60da9be5700e87d3f54d2825310a8b2ae999dfd6d99d
+  languageName: node
+  linkType: hard
+
+"blessed@npm:^0.1.81":
+  version: 0.1.81
+  resolution: "blessed@npm:0.1.81"
+  bin:
+    blessed: ./bin/tput.js
+  checksum: 10c0/19515ff7899e8af0dd6c080e30e849833ee9518508cc4eabae5a2ea5f17440537a2526169081f20c79d73fbbeca26cc798cc4b037ec250f91f4952b3a75a2143
   languageName: node
   linkType: hard
 
@@ -1711,7 +1729,9 @@ __metadata:
     "@trpc/server": "npm:^11.4.1"
     "@tsconfig/node-lts": "npm:^22.0.1"
     "@tsconfig/recommended": "npm:^1.0.8"
+    "@types/blessed": "npm:^0.1.25"
     "@types/node": "npm:^24.0.3"
+    blessed: "npm:^0.1.81"
     dotenv: "npm:^16.5.0"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"

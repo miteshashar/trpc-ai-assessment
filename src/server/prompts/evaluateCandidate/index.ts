@@ -32,35 +32,33 @@ const schema: (
         type: SchemaType.STRING,
       },
     },
-    skills: {
+    skillRatings: {
       type: SchemaType.ARRAY,
-      description:
-        "Evaluation of the candidate for the skills mentioned in the job description",
+      description: `Evaluation of the candidate for the skills mentioned in the job description. ALL ${data.skills.length} skills are required to be present in the response with rating and reasoning, even if the candidate has no alignment with them: ${Object.values(data.skills).map((s) => s.slug)}`,
       items: {
         type: SchemaType.OBJECT,
-        properties: data
-          ? Object.fromEntries(
-              data.skills.map((skill) => [
-                skill.slug,
-                {
-                  type: SchemaType.OBJECT,
-                  description: `Evaluation of the candidate for the skill "${skill.skill}"`,
-                  properties: {
-                    rating: {
-                      type: SchemaType.NUMBER,
-                      description:
-                        "Rating(out of 10) of the specific skill's alignment for the candidate in context of the job description",
-                    },
-                    reasoning: {
-                      type: SchemaType.STRING,
-                      description:
-                        "Reasoning for the rating of the specific skill's alignment for this candidate in context of the job description",
-                    },
-                  },
-                },
-              ]),
-            )
-          : {},
+        properties: {
+          slug: {
+            type: SchemaType.STRING,
+            description: `Lower kebab-case slug of the skill. One of: ${Object.values(data.skills).map((s) => s.slug)}`,
+          },
+          skill: {
+            type: SchemaType.STRING,
+            description: `Name of the skill. One of: ${data.skills
+              .map((skill) => skill.skill)
+              .join(", ")}`,
+          },
+          rating: {
+            type: SchemaType.NUMBER,
+            description:
+              "Rating(out of 10) of the specific skill's alignment for the candidate in context of the job description",
+          },
+          reasoning: {
+            type: SchemaType.STRING,
+            description:
+              "Reasoning for the rating of the specific skill's alignment for this candidate in context of the job description",
+          },
+        },
       },
     },
   },

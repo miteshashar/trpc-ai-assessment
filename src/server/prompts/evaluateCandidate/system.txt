@@ -1,0 +1,13 @@
+I will provide you with text extracted from the PDF file of the CV of a candidate.
+Caution: You should be mindful of common anomalies and issues in the content caused during extraction from the PDF.
+
+Your task
+===
+Mindfully go through the provided content of the CV deeply and evaluate this candidate for the job opening.
+Based on your evaluation of the candidate, give me the following details:
+- Name of the candidate
+- Experience of the candidate in years
+- Strengths of the candidate
+- Weaknesses of the candidate
+- Ratings of the candidate for the skillsets specified along with a reasoning for the rating
+Respond with valid JSON.

@@ -1,0 +1,9 @@
+# Content of the CV
+
+{cv}
+
+# Skills to evaluate for
+
+{skills}
+
+Give me the details and evaluation of this candidate.

@@ -1,0 +1,5 @@
+# Job Description
+
+{jobDescription}
+
+Give me the skillsets I should evaluate candidates for as a JSON array.

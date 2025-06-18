@@ -139,6 +139,28 @@ The evaluation provides detailed analysis including:
 - **Weaknesses**: Key candidate weaknesses
 - **Skill Ratings**: Detailed skill assessments (1-10 scale) with reasoning
 
+## Caching & Consistency
+
+The system implements a caching mechanism to ensure consistent skillsets for evaluation of a job description and improve performance when evaluating multiple candidates against the same job description:
+
+#### How It Works
+
+1. **Content-Based Hashing**: Each job description is converted to markdown and hashed using SHA-256
+2. **Cache Storage**: AI output of job description evaluations are stored in `.ai_cache/` directory with hash-based filenames
+3. **Automatic Reuse**: When the same job description is processed again, cached results are retrieved instead of making new AI API calls
+
+#### Benefits
+
+- **Consistency**: Identical job descriptions always produce identical skill requirements and company information
+- **Performance**: Eliminates redundant AI API calls for job description analysis
+- **Cost Efficiency**: Reduces API usage costs when evaluating multiple candidates for the same role
+
+#### Use Cases
+
+- **Batch Processing**: Evaluate multiple CVs against the same job posting
+- **Consistent Hiring**: Ensure all candidates are evaluated against identical job requirements
+
+
 ## Scripts Reference
 
 | Script | Description |

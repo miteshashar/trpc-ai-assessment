@@ -1,6 +1,8 @@
+// File utilities for PDF handling
 import { existsSync, openAsBlob } from "node:fs";
 import { basename } from "node:path";
 
+// Validate that file buffer contains a valid PDF
 export async function validatePDF(
   buffer: ArrayBuffer,
   fileName: string,
@@ -10,6 +12,7 @@ export async function validatePDF(
   }
 }
 
+// Load PDF file and add to FormData for API submission
 export async function loadPDFFile(
   filePath: string,
   formDataKey: string,

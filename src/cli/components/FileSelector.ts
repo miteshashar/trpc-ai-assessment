@@ -1,3 +1,4 @@
+// Interactive file browser for selecting PDF files
 import * as blessed from "blessed";
 import { readdirSync, statSync } from "node:fs";
 import { join, resolve as pathResolve } from "node:path";
@@ -18,6 +19,7 @@ export class FileSelector {
     this.createUI();
   }
 
+  // Create file browser interface
   private createUI() {
     this.screen = blessed.screen({
       smartCSR: true,
@@ -65,6 +67,7 @@ export class FileSelector {
     this.fileList.focus();
   }
 
+  // Handle file selection and navigation
   private setupEventHandlers() {
     this.fileList.key(["enter"], () => {
       const selectedIndex = (this.fileList as any).selected || 0;
@@ -111,6 +114,7 @@ export class FileSelector {
     }
   }
 
+  // Scan directory and filter for PDF files and subdirectories
   private updateFileList() {
     try {
       const files = readdirSync(this.currentDir)

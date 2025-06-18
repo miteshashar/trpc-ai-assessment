@@ -1,3 +1,4 @@
+// tRPC client for communicating with the evaluation server
 import { createTRPCClient, httpLink } from "@trpc/client";
 import { AppRouter } from "../../server/appRouter";
 
@@ -14,6 +15,7 @@ export class ApiClient {
     });
   }
 
+  // Send CV and job description for AI evaluation
   async evaluate(formData: FormData) {
     return await this.trpc.evaluate.mutate(formData);
   }

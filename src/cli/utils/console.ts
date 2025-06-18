@@ -1,5 +1,7 @@
-import { IEvaluationOutput } from "../../types";
+// Console output utilities for CLI
+import { IEvaluateOutput } from "../../types";
 
+// Validate command line arguments for regular CLI mode
 export function validateInputs(jdPath?: string, cvPath?: string): void {
   if (!jdPath || !cvPath) {
     console.error(
@@ -10,7 +12,8 @@ export function validateInputs(jdPath?: string, cvPath?: string): void {
   }
 }
 
-export function displayJsonResults(result: IEvaluationOutput): void {
+// Display evaluation results in formatted console output
+export function displayJsonResults(result: IEvaluateOutput): void {
   const skillRatings = result.candidateEvaluation.skillRatings || [];
   const validSkills = skillRatings.filter(
     (skill) =>

@@ -2,6 +2,7 @@
 
 import { ResponseSchema } from "@google-cloud/vertexai";
 
+// AI prompt configuration types
 export interface IPromptVars {
   jobDescription?: string;
   cv?: string;
@@ -42,13 +43,13 @@ export interface ICandidateEvaluation {
   skillRatings: ISkillRating[];
 }
 
-// Server types
+// API input/output types
 export interface IEvaluateInput {
   jobDescription: File;
   cv: File;
 }
 
-export interface IEvaluationOutput {
+export interface IEvaluateOutput {
   jobDescriptionEvaluation: IJobDescriptionEvaluation;
   candidateEvaluation: ICandidateEvaluation;
 }

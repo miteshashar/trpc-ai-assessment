@@ -1,15 +1,15 @@
 import pdf2md from "@opendocsg/pdf2md";
 
+// Convert PDF file to markdown text
 const getMarkdownFromPdfFile = async (file: File): Promise<string> => {
   const arrayBuffer = await file.arrayBuffer();
-  // Convert the PDF file to Markdown using pdf2md
   const md = await pdf2md(arrayBuffer);
-  // Replace non-ASCII characters with spaces before returning
+  // Replace non-ASCII characters with spaces for AI processing
   return md.replace(/[^\x00-\x7F]/g, " ");
 };
 
+// Generate SHA-256 hash for given text string
 const sha256 = async (text: string): Promise<string> => {
-  // Create a hash from the text using SHA-256
   const encoder = new TextEncoder();
   const data = encoder.encode(text);
   const hashBuffer = await crypto.subtle.digest("SHA-256", data);
@@ -20,6 +20,7 @@ const sha256 = async (text: string): Promise<string> => {
   return hashHex;
 };
 
+// Replace {variable} placeholders in given text string
 const replaceVars = (text: string, vars: Record<string, any>) =>
   text.replace(/\{(\w+)\}/g, (_, key) => vars?.[key] || "");
 

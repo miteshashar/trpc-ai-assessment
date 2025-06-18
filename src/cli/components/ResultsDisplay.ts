@@ -1,32 +1,27 @@
+// Interactive terminal UI for displaying CV evaluation results
 import * as blessed from "blessed";
-import { IEvaluationOutput } from "../../types";
+import { IEvaluateOutput } from "../../types";
 
 export class ResultsDisplay {
   private screen!: blessed.Widgets.Screen;
-  private result: IEvaluationOutput;
+  private result: IEvaluateOutput;
 
-  constructor(result: IEvaluationOutput) {
+  constructor(result: IEvaluateOutput) {
     this.result = result;
     this.createUI();
   }
 
+  // Create terminal UI layout with multiple panels
   private createUI() {
     this.screen = blessed.screen({
       smartCSR: true,
       title: "CV Evaluation Results",
     });
 
-    // Header
     const headerBox = this.createHeaderBox();
-
-    // Strengths and Weaknesses
     const strengthsBox = this.createStrengthsBox();
     const weaknessesBox = this.createWeaknessesBox();
-
-    // Skills
     const skillsBox = this.createSkillsBox();
-
-    // Instructions
     const exitBox = this.createExitBox();
 
     this.screen.append(headerBox);
@@ -94,6 +89,7 @@ export class ResultsDisplay {
     });
   }
 
+  // Create scrollable skills panel with ratings and reasoning
   private createSkillsBox(): blessed.Widgets.BoxElement {
     const skillRatings = this.result.candidateEvaluation.skillRatings || [];
     const validSkills = skillRatings.filter(
@@ -101,6 +97,7 @@ export class ResultsDisplay {
         skill && typeof skill.rating === "number" && !isNaN(skill.rating),
     );
 
+    // Sort skills by rating (highest first)
     const sortedSkills = validSkills.sort(
       (a, b) => (b.rating || 0) - (a.rating || 0),
     );
@@ -151,6 +148,7 @@ export class ResultsDisplay {
     });
   }
 
+  // Handle keyboard navigation and exit
   private setupEventHandlers() {
     this.screen.key(["q", "C-c"], () => {
       this.screen.destroy();

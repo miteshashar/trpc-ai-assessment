@@ -1,4 +1,4 @@
-// Get list of folders in the current directory
+// AI prompt execution with caching support
 
 import {
   Content,
@@ -13,11 +13,13 @@ import { replaceVars } from "../utils";
 import evaluateCandidate from "./evaluateCandidate";
 import evaluateJobDescription from "./evaluateJobDescription";
 
+// Create cache directory for AI responses
 const CACHE_FOLDER = ".ai_cache";
 if (!existsSync(CACHE_FOLDER)) {
   mkdirSync(CACHE_FOLDER, { recursive: true });
 }
 
+// Execute AI prompt with optional caching
 export const runPrompt = async (
   prompt: IPrompt,
   history: Content[],
@@ -33,7 +35,7 @@ export const runPrompt = async (
   ];
   if (cacheKey) {
     const cacheFilePath = join(CACHE_FOLDER, `${cacheKey}.json`);
-    // Load response from cache if available
+    // Return cached response if available
     if (existsSync(cacheFilePath)) {
       const cachedResponse: Content = JSON.parse(
         readFileSync(cacheFilePath, "utf-8"),
@@ -42,8 +44,12 @@ export const runPrompt = async (
       return cachedResponse;
     }
   }
+  // Build AI request
   const request: GenerateContentRequest = {
     contents: history.concat(contents),
+    // TODO: generationConfig can be moved to prompt management system
+    // when adding new prompts for different use cases.
+    // For now, hard-coded settings are good enough.
     generationConfig: {
       temperature: 0,
       topP: 0,
@@ -53,14 +59,12 @@ export const runPrompt = async (
   if (prompt.system) {
     request.systemInstruction = replaceVars(prompt.system, vars);
   }
+  // Configure structured JSON response if schema provided
   if (prompt.schema) {
     request.generationConfig!.responseMimeType = "application/json";
     request.generationConfig!.responseSchema = prompt.schema(vars);
   }
-  writeFileSync(
-    join(CACHE_FOLDER, "request.json"),
-    JSON.stringify(request, null, 2),
-  );
+
   const response = await fetch(config.AI_API_URL, {
     method: "POST",
     headers: {
@@ -76,8 +80,9 @@ export const runPrompt = async (
   }
   const responseData = (await response.json()) as GenerateContentResponse;
   if (!responseData.candidates || responseData.candidates.length === 0) {
-    throw new Error("No candidates returned from AI API");
+    throw new Error("No response received from AI API");
   }
+  // Cache response for future requests
   if (cacheKey) {
     const cacheFilePath = join(CACHE_FOLDER, `${cacheKey}.json`);
     writeFileSync(
@@ -85,13 +90,10 @@ export const runPrompt = async (
       JSON.stringify(responseData.candidates[0].content),
     );
   }
-  writeFileSync(
-    join(CACHE_FOLDER, "response.json"),
-    JSON.stringify(responseData, null, 2),
-  );
   history.push(...contents, responseData.candidates[0].content);
   return responseData.candidates[0].content;
 };
+
 export default {
   evaluateCandidate,
   evaluateJobDescription,

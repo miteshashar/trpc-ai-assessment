@@ -1,11 +1,16 @@
 import { ResponseSchema, SchemaType } from "@google-cloud/vertexai";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { IPrompt } from "../../types";
+import { IPrompt } from "../../../types";
 
+// Schema should be aligned with the IJobDescriptionEvaluation type interface
 const schema: () => ResponseSchema = () => ({
   type: SchemaType.OBJECT,
   properties: {
+    companyName: {
+      type: SchemaType.STRING,
+      description: "The name of the company",
+    },
     jobOpeningTitle: {
       type: SchemaType.STRING,
       description: "The title of the job opening",
@@ -19,10 +24,12 @@ const schema: () => ResponseSchema = () => ({
         properties: {
           slug: {
             type: SchemaType.STRING,
+            nullable: false,
             description: "Lower kebab-case slug of the skill",
           },
           skill: {
             type: SchemaType.STRING,
+            nullable: false,
             description: "Name of the skill",
           },
         },

@@ -7,8 +7,9 @@ import {
 } from "@google-cloud/vertexai";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { IPrompt, IPromptVars } from "../../types";
 import config from "../config";
-import { IPrompt } from "../types";
+import { replaceVars } from "../utils";
 import evaluateCandidate from "./evaluateCandidate";
 import evaluateJobDescription from "./evaluateJobDescription";
 
@@ -20,15 +21,10 @@ if (!existsSync(CACHE_FOLDER)) {
 export const runPrompt = async (
   prompt: IPrompt,
   history: Content[],
-  vars?: Record<string, any>,
-  data?: Record<string, any>,
+  vars: IPromptVars,
   cacheKey?: string,
 ): Promise<Content> => {
-  const cacheFilePath = join(CACHE_FOLDER, `${cacheKey}.json`);
-  const userPrompt = prompt.user.replace(
-    /\{(\w+)\}/g,
-    (_, key) => vars?.[key] || "",
-  );
+  const userPrompt = replaceVars(prompt.user, vars);
   const contents: Content[] = [
     {
       role: "user",
@@ -36,11 +32,14 @@ export const runPrompt = async (
     },
   ];
   if (cacheKey) {
+    const cacheFilePath = join(CACHE_FOLDER, `${cacheKey}.json`);
     // Load response from cache if available
     if (existsSync(cacheFilePath)) {
-      const cachedResponse = JSON.parse(readFileSync(cacheFilePath, "utf-8"));
+      const cachedResponse: Content = JSON.parse(
+        readFileSync(cacheFilePath, "utf-8"),
+      );
       history.push(...contents, cachedResponse);
-      return cachedResponse as Content;
+      return cachedResponse;
     }
   }
   const request: GenerateContentRequest = {
@@ -52,14 +51,11 @@ export const runPrompt = async (
     },
   };
   if (prompt.system) {
-    request.systemInstruction = prompt.system.replace(
-      /\{(\w+)\}/g,
-      (_, key) => vars?.[key] || "",
-    );
+    request.systemInstruction = replaceVars(prompt.system, vars);
   }
   if (prompt.schema) {
     request.generationConfig!.responseMimeType = "application/json";
-    request.generationConfig!.responseSchema = prompt.schema(data || {});
+    request.generationConfig!.responseSchema = prompt.schema(vars);
   }
   writeFileSync(
     join(CACHE_FOLDER, "request.json"),
@@ -83,6 +79,7 @@ export const runPrompt = async (
     throw new Error("No candidates returned from AI API");
   }
   if (cacheKey) {
+    const cacheFilePath = join(CACHE_FOLDER, `${cacheKey}.json`);
     writeFileSync(
       cacheFilePath,
       JSON.stringify(responseData.candidates[0].content),

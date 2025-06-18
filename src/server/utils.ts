@@ -20,4 +20,7 @@ const sha256 = async (text: string): Promise<string> => {
   return hashHex;
 };
 
-export { getMarkdownFromPdfFile, sha256 };
+const replaceVars = (text: string, vars: Record<string, any>) =>
+  text.replace(/\{(\w+)\}/g, (_, key) => vars?.[key] || "");
+
+export { getMarkdownFromPdfFile, replaceVars, sha256 };

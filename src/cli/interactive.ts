@@ -1,7 +1,7 @@
 import { FileSelector } from "./components/FileSelector";
 import { ResultsDisplay } from "./components/ResultsDisplay";
 import { ApiClient } from "./services/ApiClient";
-import { loadPDFFile } from "./utils/fileUtils";
+import { loadPDFFile } from "./utils/file";
 
 async function main() {
   try {

@@ -1,4 +1,4 @@
-import { EvaluationResult } from "../components/ResultsDisplay";
+import { IEvaluationOutput } from "../../types";
 
 export function validateInputs(jdPath?: string, cvPath?: string): void {
   if (!jdPath || !cvPath) {
@@ -10,7 +10,7 @@ export function validateInputs(jdPath?: string, cvPath?: string): void {
   }
 }
 
-export function displayJsonResults(result: EvaluationResult): void {
+export function displayJsonResults(result: IEvaluationOutput): void {
   const skillRatings = result.candidateEvaluation.skillRatings || [];
   const validSkills = skillRatings.filter(
     (skill) =>
@@ -25,9 +25,10 @@ export function displayJsonResults(result: EvaluationResult): void {
   console.log("\n" + "=".repeat(80));
   console.log("CV EVALUATION RESULTS");
   console.log("=".repeat(80));
-  
+
   console.log(`\nCandidate: ${result.candidateEvaluation.candidateName}`);
   console.log(`Experience: ${result.candidateEvaluation.experience} years`);
+  console.log(`Company: ${result.jobDescriptionEvaluation.companyName}`);
   console.log(`Position: ${result.jobDescriptionEvaluation.jobOpeningTitle}`);
 
   console.log("\nSTRENGTHS:");

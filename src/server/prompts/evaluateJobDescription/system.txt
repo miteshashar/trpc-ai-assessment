@@ -9,4 +9,4 @@ Your task
 - Mindfully go through the provided content of the job description deeply and identify the imporant skillsets required by candidates applying for the job.
 - Only include skills that can be evaluated from the contents of the CV of a candidate.
 - Definitely include skills explicitly mentioned in the job description. Do not miss them.
-- Respond with a JSON array.
+- Respond with valid JSON.

@@ -1,32 +1,11 @@
 import * as blessed from "blessed";
-
-export interface EvaluationResult {
-  jobDescriptionEvaluation: {
-    jobOpeningTitle: string;
-    skills: Array<{
-      slug: string;
-      skill: string;
-    }>;
-  };
-  candidateEvaluation: {
-    candidateName: string;
-    experience: number;
-    strengths: string[];
-    weaknesses: string[];
-    skillRatings: Array<{
-      slug: string;
-      skill: string;
-      rating: number;
-      reasoning: string;
-    }>;
-  };
-}
+import { IEvaluationOutput } from "../../types";
 
 export class ResultsDisplay {
   private screen!: blessed.Widgets.Screen;
-  private result: EvaluationResult;
+  private result: IEvaluationOutput;
 
-  constructor(result: EvaluationResult) {
+  constructor(result: IEvaluationOutput) {
     this.result = result;
     this.createUI();
   }
@@ -66,7 +45,7 @@ export class ResultsDisplay {
       left: 0,
       width: "100%",
       height: 3,
-      content: `Candidate: ${this.result.candidateEvaluation.candidateName} (${this.result.candidateEvaluation.experience} years experience) | Position: ${this.result.jobDescriptionEvaluation.jobOpeningTitle}`,
+      content: `Candidate: ${this.result.candidateEvaluation.candidateName} (${this.result.candidateEvaluation.experience} years experience) | Company: ${this.result.jobDescriptionEvaluation.companyName} | Position: ${this.result.jobDescriptionEvaluation.jobOpeningTitle}`,
       tags: true,
       border: { type: "line" },
       style: {

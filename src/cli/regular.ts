@@ -1,7 +1,7 @@
 import { TRPCClientError } from "@trpc/client";
-import { loadPDFFile } from "./utils/fileUtils";
-import { validateInputs, displayJsonResults } from "./utils/consoleUtils";
 import { ApiClient } from "./services/ApiClient";
+import { displayJsonResults, validateInputs } from "./utils/console";
+import { loadPDFFile } from "./utils/file";
 
 async function main() {
   const jdPath = process.argv[2];
@@ -10,7 +10,7 @@ async function main() {
   validateInputs(jdPath, cvPath);
 
   const formData = new FormData();
-  
+
   try {
     await loadPDFFile(jdPath, "jobDescription", formData);
     await loadPDFFile(cvPath, "cv", formData);
@@ -23,7 +23,7 @@ async function main() {
     console.log("Evaluating candidate against job description...");
     const apiClient = new ApiClient();
     const response = await apiClient.evaluate(formData);
-    
+
     console.log("Evaluation completed successfully!");
     displayJsonResults(response);
     process.exit(0);

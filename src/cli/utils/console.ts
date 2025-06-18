@@ -4,8 +4,11 @@ import { IEvaluateOutput } from "../../types";
 // Validate command line arguments for regular CLI mode
 export function validateInputs(jdPath?: string, cvPath?: string): void {
   if (!jdPath || !cvPath) {
+    const scriptName = process.argv[1].includes('src/cli/regular') 
+      ? 'yarn cli' 
+      : `node ${process.argv[1].replace(process.cwd() + '/', '')}`;
     console.error(
-      "Usage: yarn cli <path/to/job-description.pdf> <path/to/cv.pdf>\n" +
+      `Usage: ${scriptName} <path/to/job-description.pdf> <path/to/cv.pdf>\n` +
         "Please provide paths to both the job description and CV PDF files.",
     );
     process.exit(1);

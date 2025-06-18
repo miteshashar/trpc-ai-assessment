@@ -3,5 +3,9 @@
     "@tsconfig/recommended/tsconfig.json",
     "@tsconfig/node-lts/tsconfig.json"
   ],
-  "include": ["src"]
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  }
 }

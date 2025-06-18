@@ -4,7 +4,9 @@
   "scripts": {
     "dev:server": "tsx watch src/server",
     "cli": "tsx src/cli/regular",
-    "cli:interactive": "tsx src/cli/interactive"
+    "cli:interactive": "tsx src/cli/interactive",
+    "build": "rm -rf dist && tsc && ./build-scripts.sh",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@google-cloud/vertexai": "^1.10.0",
